@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/author/signIn_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
         visualDensity: VisualDensity.adaptivePlatformDensity, 
       ),
-      home: HomeScreen(),
+      home: ShoppingCartScreen(),
     );
   }
 }
