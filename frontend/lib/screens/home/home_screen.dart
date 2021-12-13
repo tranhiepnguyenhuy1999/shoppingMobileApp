@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/home/components/body.dart';
+import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -34,7 +35,21 @@ class HomeScreen extends StatelessWidget {
           ),
           onPressed: () {},
         ),
-        SizedBox(width: kDefaultPaddin / 2)
+        SizedBox(width: kDefaultPaddin / 2),
+                IconButton(
+          icon: SvgPicture.asset(
+            "assets/icons/cart.svg",
+            // By default our  icon color is white
+            color: kTextColor,
+          ),
+          onPressed:() => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShoppingCartScreen(
+                            
+                            ),
+                          )),
+        ),
       ],
     );
   }

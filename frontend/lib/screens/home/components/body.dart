@@ -22,7 +22,11 @@ class Body extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 decoration: BoxDecoration(
-                  color: Colors.amber
+                  color: Colors.amber,
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/banner.jpg"),
+                    fit: BoxFit.cover
+                  )
                 ),
                 child: Text('text $i', style: TextStyle(fontSize: 16.0),)
               );
