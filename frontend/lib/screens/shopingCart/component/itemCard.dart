@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/details/components/cart_counter.dart';
 
 class ItemCard extends StatelessWidget {
   final Product item;
@@ -17,7 +18,7 @@ class ItemCard extends StatelessWidget {
     child: Container(
       padding: EdgeInsets.all(20),
       width: double.maxFinite,
-      height: 100,
+      height: 120,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius:  BorderRadius.circular(5)
@@ -43,9 +44,15 @@ class ItemCard extends StatelessWidget {
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Text("${item.title}", style: TextStyle(fontSize: 15)),
+                 Text("${item.title}", style: TextStyle(fontSize: 13)),
                  Expanded(child: Container(),),         
-                 Text("${item.price} VNĐ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red))
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                    Text("${item.price} VNĐ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.red)),
+                    CartCounter()
+                   ]
+                 )
                ]
              ),
            )
