@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:shop_app/controller/cart_controller.dart';
+import 'package:shop_app/models/Product%20copy.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
+
+CartController _controller = Get.put(CartController());
 
 class AddToCart extends StatelessWidget {
   const AddToCart({
@@ -43,9 +48,9 @@ class AddToCart extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
                 color: product.color,
-                onPressed: () {},
+                onPressed: () {_controller.addCart(CartItemM.fromProduct(product, 1));},
                 child: Text(
-                  "Buy  Now".toUpperCase(),
+                  "Buy Now".toUpperCase(),
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,

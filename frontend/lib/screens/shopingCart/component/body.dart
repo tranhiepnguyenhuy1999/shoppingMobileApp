@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shop_app/controller/cart_controller.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/shopingCart/component/itemCard.dart';
 import 'package:shop_app/models/Product.dart';
@@ -9,21 +11,31 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  
+  CartController _controller = Get.put(CartController());
+  
+  int totalMoney= products.fold(0, (prev, element) => prev+ element.price);
+  @override
+  initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [Expanded(
-        child: ListView.builder(
-          itemCount: products.length,
-          itemBuilder: (context, index)=>ItemCard(item: products[index], press: () => Navigator.push(
+        child: Obx(()=>
+          ListView.builder(
+          itemCount: _controller.product.value.length,
+          itemBuilder: (context, index)=>ItemCard(item: _controller.product[index], press: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsScreen(
-                                product: products[index],
+                                product: _controller.product[index],
                               ),
                             )),),
         )
+          ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -39,7 +51,7 @@ class _BodyState extends State<Body> {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Text("Tổng tiền: ${200000}"),
+            Text("Tổng tiền: ${totalMoney}"),
             Expanded(child: Container()),
             TextButton(onPressed: (){}, child: 
             Text("Thanh toán")

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Product%20copy.dart';
 import 'package:shop_app/screens/details/components/cart_counter.dart';
+import 'package:shop_app/screens/shopingCart/component/cartCounter.dart';
 
 class ItemCard extends StatelessWidget {
-  final Product item;
+  final CartItemM item;
   final Function press;
   const ItemCard({
     Key key,
@@ -50,7 +51,7 @@ class ItemCard extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
                     Text("${item.price} VNĐ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.red)),
-                    CartCounter()
+                    CartShoppingCounter(amount: item.amount),
                    ]
                  )
                ]

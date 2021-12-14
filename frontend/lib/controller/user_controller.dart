@@ -8,12 +8,3 @@ class UserController extends GetxController {
 
     }
     
-    class User {
-        String name;
-        int age;
-
-        User(String n, int age){
-          this.name=n;
-          this.age=age;
-        }
-    }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:shop_app/controller/cart_controller.dart';
 import 'package:shop_app/screens/shopingCart/component/body.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
+
+  CartController _controller = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +22,7 @@ class ShoppingCartScreen extends StatelessWidget {
         onPressed: () => Navigator.pop(context),
       ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.delete), color: Colors.black45,)
+          IconButton(onPressed:(){_controller.clearAll();}, icon: Icon(Icons.delete), color: Colors.black45,)
         ],
       ),
       body: Body(),
