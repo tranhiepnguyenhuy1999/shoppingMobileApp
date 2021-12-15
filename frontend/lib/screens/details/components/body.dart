@@ -16,6 +16,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     // It provide us total height and width
     Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/components/body.dart';
+import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Product product;
@@ -36,7 +38,7 @@ class DetailsScreen extends StatelessWidget {
         ),
         IconButton(
           icon: SvgPicture.asset("assets/icons/cart.svg"),
-          onPressed: () {},
+          onPressed: () {Get.to(ShoppingCartScreen());},
         ),
         SizedBox(width: kDefaultPaddin / 2)
       ],

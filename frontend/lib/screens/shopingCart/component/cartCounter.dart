@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/controller/cart_controller.dart';
+
+CartController _controller = Get.put(CartController());
 
 class CartShoppingCounter extends StatelessWidget {
   final int amount;
   final Function press;
+  final int id;
   const CartShoppingCounter({
   Key key,
   this.amount,
-  this.press
+  this.press,
+  this.id
   }) : super(key: key);
 
   @override
@@ -16,38 +22,43 @@ class CartShoppingCounter extends StatelessWidget {
       children: <Widget>[
         buildOutlineButton(
           icon: Icons.remove,
-          press: () {},
-        ),  
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin / 4),
-          child: SizedBox(
-            width: 50,
+          press: () {
+            if(amount>0)
+              _controller.changeAmountById(id, amount-1);
+          },
+        ), 
+         SizedBox(
+            width: 35,
             child: TextButton(
-               onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          content: SizedBox(
-            width: double.maxFinite,
-            child: TextField(
-              onChanged: (value) => {
-              },
-              autofocus: true,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: 'Nhập số lượng',
-              )
+              child: Text("${amount}", style: TextStyle(fontSize: 15, color: Colors.black)),
+              onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                content: SizedBox(
+                  width: double.maxFinite,
+                  child: TextField(
+                    onSubmitted: (value) => {
+                      if(value != null)
+                      {
+                        _controller.changeAmountById(id, int.parse(value)),
+                        Navigator.pop(context)
+                      }
+                    },
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Nhập số lượng',
+                    )
+                  ),
+                ),
+              ),
+            ),
             ),
           ),
-        ),
-      ),
-              child: Text("${amount}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black))
-            ),
-          )
-        ),
         buildOutlineButton(
             icon: Icons.add,
             press: () {
-        
+            _controller.changeAmountById(id, amount+1);
             }),
       ],
     );
@@ -56,15 +67,15 @@ class CartShoppingCounter extends StatelessWidget {
 
   SizedBox buildOutlineButton({IconData icon, Function press}) {
     return SizedBox(
-      width: 40,
-      height: 32,
+      width: 25,
+      height: 25,
       child: OutlineButton(
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(10),
         ),
         onPressed: press,
-        child: Icon(icon),
+        child: Icon(icon, size: 13,),
       ),
     );
   }
