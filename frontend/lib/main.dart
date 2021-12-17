@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/author/signIn_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/main/main_page.dart';
 import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 
 void main() {
@@ -18,9 +19,9 @@ class MyApp extends GetMaterialApp {
       title: 'Flutter Demo',
       theme: ThemeData(
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
-        visualDensity: VisualDensity.adaptivePlatformDensity, 
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: MainPage(),
     );
   }
 }
