@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
       children:[
         CarouselSlider(
         options: CarouselOptions(height: 150.0),
-        items: [1,2,3,4,5].map((i) {
+        items: [1,2,3,4].map((i) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.amber,
                   image: DecorationImage(
-                    image: AssetImage("assets/images/banner.jpg"),
+                    image: AssetImage("assets/images/banner${i}.png"),
                     fit: BoxFit.cover
                   )
                 ),

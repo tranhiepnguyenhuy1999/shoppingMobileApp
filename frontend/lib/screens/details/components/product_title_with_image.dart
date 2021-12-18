@@ -56,7 +56,7 @@ class ProductTitleWithImage extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ) 
             ],
           )
         ],

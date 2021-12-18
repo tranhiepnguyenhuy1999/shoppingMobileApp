@@ -5,6 +5,7 @@ import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/components/body.dart';
 import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Product product;
