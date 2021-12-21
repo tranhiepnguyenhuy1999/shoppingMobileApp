@@ -7,7 +7,64 @@ import 'package:shop_app/screens/details/details_screen.dart';
 import 'categorries.dart';
 import 'item_card.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+
+
+  final List<Product> productList= [];
+
+  ScrollController _controller= new ScrollController();
+
+  bool loading = false;
+  bool isLoadingDone = false;
+  void fetchData () async {
+    if(isLoadingDone) return;
+    setState(() {
+      loading: true;
+    });
+    await Future.delayed( Duration(milliseconds: 1000));
+    if(productList.length >=60)
+    {
+      setState(() {
+        isLoadingDone: true;
+      });
+    }
+    else
+    {
+      setState(() {
+        productList: productList.addAll(products);
+      });
+    }
+    setState(() {
+      loading: false;
+    });
+  }
+
+  @override 
+  initState() {
+    super.initState();
+    // Add listeners to this class  
+    fetchData();
+    _controller.addListener(() {
+      if(_controller.position.pixels >= _controller.position.maxScrollExtent)
+      {
+        fetchData();
+      }
+    });
+  }
+  
+  @override
+   void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,9 +94,10 @@ class Body extends StatelessWidget {
         Categories(),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: kDefaultPaddin),
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: kDefaultPaddin/4),
             child: GridView.builder(
-                itemCount: products.length,
+                controller: _controller,
+                itemCount: productList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: kDefaultPaddin,
@@ -47,12 +105,12 @@ class Body extends StatelessWidget {
                   childAspectRatio: 0.75,
                 ),
                 itemBuilder: (context, index) => ItemCard(
-                      product: products[index],
+                      product: productList[index],
                       press: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailsScreen(
-                              product: products[index],
+                              product: productList[index],
                             ),
                           )),
                     )),

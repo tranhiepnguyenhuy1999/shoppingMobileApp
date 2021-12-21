@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/controller/cart_controller.dart';
+import 'package:shop_app/screens/bill/bill_screen.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/shopingCart/component/itemCard.dart';
 import 'package:shop_app/models/Product.dart';
@@ -64,7 +65,9 @@ class _BodyState extends State<Body> {
             Obx(()=>Text("Tổng tiền: ${_controller.product.fold(0, (prev, element) => prev+ element.price*element.amount)}")),
             Expanded(child: Container()),
             TextButton(onPressed: (){}, child: 
-            Text("Thanh toán")
+            TextButton(
+              onPressed: () {Get.to(()=>BillScreen());},
+              child: Text("Thanh toán"))
             )
           ],
         ),
