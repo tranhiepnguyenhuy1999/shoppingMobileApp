@@ -19,7 +19,7 @@ class ColorAndSize extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Color"),
+              Text("Màu sắc"),
               Row(
                 children: <Widget>[
                   ColorDot(
@@ -38,9 +38,9 @@ class ColorAndSize extends StatelessWidget {
             text: TextSpan(
               style: TextStyle(color: kTextColor),
               children: [
-                TextSpan(text: "Size\n"),
+                TextSpan(text: "Kích thước\n"),
                 TextSpan(
-                  text: "${product.size} cm",
+                  text: "${product.size}",
                   style: Theme.of(context)
                       .textTheme
                       .headline5

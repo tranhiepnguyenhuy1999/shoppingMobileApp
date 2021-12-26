@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 
-class   CartCounter extends StatefulWidget {
-  @override
-  _CartCounterState createState() => _CartCounterState();
-}
+class   CartCounter extends StatelessWidget {
 
-class _CartCounterState extends State<CartCounter> {
-  int numOfItems = 1;
+  final int numOfItems;
+  final Function countNum;
+  const CartCounter({
+    this.numOfItems,
+    this.countNum,
+    Key key,
+  }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,9 @@ class _CartCounterState extends State<CartCounter> {
         buildOutlineButton(
           icon: Icons.remove,
           press: () {
-            if (numOfItems > 1) {
-              setState(() {
-                numOfItems--;
-              });
+            if(numOfItems>0)
+            {
+            countNum(1, "-");
             }
           },
         ),  
@@ -36,10 +38,11 @@ class _CartCounterState extends State<CartCounter> {
             width: double.maxFinite,
             child: TextField(
               onChanged: (value) => {
-                if(value != null)
-                setState(() {
-                numOfItems= int.parse(value);
-              })},
+                if(value !=null)
+                {
+                  countNum(int.parse(value), "")
+                }
+              },
               autofocus: true,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
@@ -56,9 +59,7 @@ class _CartCounterState extends State<CartCounter> {
         buildOutlineButton(
             icon: Icons.add,
             press: () {
-              setState(() {
-                numOfItems++;
-              });
+              countNum(1,"+");
             }),
       ],
     );

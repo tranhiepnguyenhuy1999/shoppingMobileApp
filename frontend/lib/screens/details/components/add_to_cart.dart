@@ -10,12 +10,15 @@ import '../../../constants.dart';
 CartController _controller = Get.put(CartController());
 
 class AddToCart extends StatelessWidget {
+
+  final Product product;
+  final int numOfItems;
   const AddToCart({
     Key key,
     @required this.product,
+    this.numOfItems
   }) : super(key: key);
 
-  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class AddToCart extends StatelessWidget {
                 "assets/icons/add_to_cart.svg",
                 color: product.color,
               ),
-              onPressed: () {},
+              onPressed: () {_controller.addCart(CartItemM.fromProduct(product, numOfItems));},
             ),
           ),
           Expanded(
@@ -50,7 +53,7 @@ class AddToCart extends StatelessWidget {
                 color: product.color,
                 onPressed: () {_controller.addCart(CartItemM.fromProduct(product, 1));},
                 child: Text(
-                  "Buy Now".toUpperCase(),
+                  "Mua ngay".toUpperCase(),
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,

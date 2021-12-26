@@ -8,10 +8,36 @@ import 'counter_with_fav_btn.dart';
 import 'description.dart';
 import 'product_title_with_image.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   final Product product;
-
   const Body({Key key, this.product}) : super(key: key);
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+
+  int numOfItems = 1;
+  Function countNum (value, key) {
+      switch (key) {
+        case "+":
+          setState(() {
+            numOfItems += value;
+          });
+          break;
+        case "-":
+          setState(() {
+            numOfItems -= value;
+          });
+          break;
+        default:
+          setState(() {
+            numOfItems = value;
+          });
+          break;
+      }
+  }
   @override
   Widget build(BuildContext context) {
     // It provide us total height and width
@@ -21,7 +47,6 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(
-            height: size.height,
             child: Stack(
               children: <Widget>[
                 Container(
@@ -40,18 +65,25 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      ColorAndSize(product: product),
+                      ColorAndSize(product: widget.product),
                       SizedBox(height: kDefaultPaddin / 2),
-                      Description(product: product),
+                      Description(product: widget.product),
                       SizedBox(height: kDefaultPaddin / 2),
-                      CounterWithFavBtn(),
+                      CounterWithFavBtn(numOfItems: numOfItems, countNum: countNum),
                       SizedBox(height: kDefaultPaddin / 2),
-                      AddToCart(product: product)
+                      AddToCart(product: widget.product, numOfItems: numOfItems),
+                      SizedBox(height: kDefaultPaddin / 2),
+                      Text("Nhận xét và Đánh giá (0)", style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)),
+                      SizedBox(height: kDefaultPaddin / 2),
+                      Text("Hiện tại chưa có nhận xét nào về sản phẩm"),
+                      SizedBox(height: kDefaultPaddin / 2),
+
                     ],
                   ),
                 ),
-                ProductTitleWithImage(product: product)
+                ProductTitleWithImage(product: widget.product)
               ],
             ),
           )

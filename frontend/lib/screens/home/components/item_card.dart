@@ -46,7 +46,7 @@ class ItemCard extends StatelessWidget {
               child: Text(
                 // products is out demo list
                 product.title,
-                style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.black54,fontWeight: FontWeight.w500, fontSize: 16.0),
               ),
             ),
             Padding(

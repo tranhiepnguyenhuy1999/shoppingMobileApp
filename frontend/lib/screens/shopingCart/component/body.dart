@@ -32,8 +32,8 @@ class _BodyState extends State<Body> {
         ?
         Obx(()=>
           ListView.builder(
-          itemCount: _controller.product.value.length,
-          itemBuilder: (context, index)=>ItemCard(item: _controller.product.value[index], press: () => Navigator.push(
+          itemCount: _controller.product.length,
+          itemBuilder: (context, index)=>ItemCard(item: _controller.product[index], press: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsScreen(

@@ -4,7 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'cart_counter.dart';
 
 class CounterWithFavBtn extends StatelessWidget {
+  final int numOfItems;
+  final Function countNum;
   const CounterWithFavBtn({
+    this.numOfItems,
+    this.countNum,
     Key key,
   }) : super(key: key);
 
@@ -13,7 +17,7 @@ class CounterWithFavBtn extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        CartCounter(),
+        CartCounter(numOfItems: numOfItems, countNum: countNum),
         Container(
           padding: EdgeInsets.all(8),
           height: 32,
