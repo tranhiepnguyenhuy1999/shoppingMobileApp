@@ -45,18 +45,18 @@ class ProductTitleWithImage extends StatelessWidget {
                 ),
               ),
               SizedBox(width: kDefaultPaddin),
-              Expanded(
-                child: Hero(
-                  tag: "${product.id}",
-                  child: SizedBox(
-                    height: 200,
-                    child: Image.asset(
-                      product.image,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              ) 
+              // Expanded(
+              //   child: Hero(
+              //     tag: "${product.id}",
+              //     child: SizedBox(
+              //       height: 200,
+              //       child: Image.asset(
+              //         product.image,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //   ),
+              // ) 
             ],
           )
         ],

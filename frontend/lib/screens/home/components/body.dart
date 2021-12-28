@@ -100,8 +100,8 @@ class _BodyState extends State<Body> {
                 itemCount: productList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: kDefaultPaddin,
-                  crossAxisSpacing: kDefaultPaddin,
+                  mainAxisSpacing: kDefaultPaddin/2,
+                  crossAxisSpacing: kDefaultPaddin/2,
                   childAspectRatio: 0.75,
                 ),
                 itemBuilder: (context, index) => ItemCard(

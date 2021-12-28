@@ -26,18 +26,14 @@ class ItemCard extends StatelessWidget {
             Expanded(
               child: Container(
                 width: double.maxFinite,
-                padding: EdgeInsets.all(kDefaultPaddin),
-                // For  demo we use fixed height  and width
-                // Now we dont need them
-                // height: 180,
-                // width: 160,
+                height: 300,
                 decoration: BoxDecoration(
                   color: Colors.white12,
                   borderRadius: BorderRadius.circular(3),
                 ),
                 child: Hero(
                   tag: "${product.id}",
-                  child: Image.asset(product.image),
+                  child: Image.network(product.image, fit: BoxFit.fill),
                 ),
               ),
             ),
