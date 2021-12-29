@@ -27,6 +27,12 @@ exports.createValidator = () => {
     body('address')
       .notEmpty()
       .withMessage('Địa chỉ Không hợp lệ'),
+    body('category_id')
+      .isInt()
+      .withMessage('Danh mục không hợp lệ')
+      .notEmpty()
+      .withMessage('Danh mục không được để trống'),
+
   ]
 }
 

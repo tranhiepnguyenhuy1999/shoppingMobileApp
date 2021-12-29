@@ -36,6 +36,16 @@ const list = async (req, res, next) => {
 const create = async (req, res, next) => {
     const body = req.body
 
+    const category = await prisma.category.findUnique({
+        where: {
+            id: body.category_id
+        }
+    })
+
+    if (!category) {
+        return res.json({ code: 201, message: "Danh mục không tồn tại", data: null })
+    }
+
     let product = await prisma.product.create({
         data: {
             title: body.title,
@@ -45,6 +55,7 @@ const create = async (req, res, next) => {
             image: body.image,
             color: body.color,
             address: body.address,
+            category_id: category.id
         },
     });
     product.hash = "string"
@@ -54,6 +65,18 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     const body = req.body
+
+    if (body.category_id) {
+        const category = await prisma.category.findUnique({
+            where: {
+                id: body.category_id
+            }
+        })
+
+        if (!category) {
+            return res.json({ code: 201, message: "Danh mục không tồn tại", data: null })
+        }
+    }
 
     let product = await prisma.product.findUnique({
         where: {
@@ -77,6 +100,7 @@ const update = async (req, res, next) => {
             image: body.image,
             color: body.color,
             address: body.address,
+            category_id: body.category_id,
         },
     })
     product.hash = "string"

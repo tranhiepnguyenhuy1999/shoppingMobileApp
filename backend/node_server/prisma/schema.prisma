@@ -28,7 +28,15 @@ model Product {
   address     String?
   hash        String?
   created_at  DateTime @default(now())
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+}
 
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  created_at  DateTime @default(now())
+  products Product[]
 }
 
 model Order {
