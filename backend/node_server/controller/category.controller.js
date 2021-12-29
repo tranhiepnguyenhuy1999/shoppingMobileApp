@@ -19,6 +19,9 @@ const list = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     const body = req.body
 
     let category = await prisma.category.create({

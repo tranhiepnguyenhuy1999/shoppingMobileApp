@@ -4,6 +4,9 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const list = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     const args = req.query
     const orderBy = args.order_by ? args.order_by : 'created_at'
     const orderType = args.order_type ? args.order_type : 'desc'
@@ -32,6 +35,9 @@ const list = async (req, res, next) => {
 }
 
 const detail = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     let order = await prisma.order.findUnique({
         where: {
             id: parseInt(req.params.id)
@@ -52,6 +58,9 @@ const detail = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     const body = req.body
     let details = []
     let totalPrice = 0

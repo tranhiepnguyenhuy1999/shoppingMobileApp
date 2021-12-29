@@ -34,6 +34,9 @@ const list = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     const body = req.body
 
     const category = await prisma.category.findUnique({
@@ -64,6 +67,9 @@ const create = async (req, res, next) => {
 }
 
 const update = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     const body = req.body
 
     if (body.category_id) {
@@ -109,6 +115,9 @@ const update = async (req, res, next) => {
 }
 
 const detail = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     let product = await prisma.product.findUnique({
         where: {
             id: parseInt(req.params.id)
@@ -124,6 +133,9 @@ const detail = async (req, res, next) => {
 }
 
 const remove = async (req, res, next) => {
+    if (!req.user) {
+        return res.json({ code: 1, message: "Bạn chưa đăng nhập!", data: null })
+    }
     let product = await prisma.product.findUnique({
         where: {
             id: parseInt(req.params.id)
