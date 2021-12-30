@@ -22,7 +22,11 @@ const list = async (req, res, next) => {
             [orderBy]: orderType
         },
         include: {
-            details: true
+            details: {
+                include: {
+                    product: true
+                }
+            }
         }
     })
 
