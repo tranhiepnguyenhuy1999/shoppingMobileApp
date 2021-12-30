@@ -85,7 +85,7 @@ const create = async (req, res, next) => {
     if (totalPrice != body.total_price) {
         return res.json({ code: 303, message: "Số tiền phải trả không đúng", data: { pay_price: totalPrice } })
     }
-
+    let coupon = null
     if (body.code) {
         coupon = await prisma.coupon.findUnique({
             where: {
