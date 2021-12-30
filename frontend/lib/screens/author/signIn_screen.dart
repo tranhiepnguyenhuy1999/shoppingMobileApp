@@ -23,7 +23,7 @@ class _SignInScreenState extends State<SignInScreen> {
     void _doSignIn (String email, String password) async {
     // await Future.delayed( Duration(milliseconds: 1000));
     var body = { "email" : email, "password" : password};
-    var url = Uri.parse('http://192.168.2.8:4007/v1/login');
+    var url = Uri.parse('http://192.168.0.104:4007/v1/login');
     var response = await http.post(url,
     body: json.encode(body), headers: {"Content-Type": "application/json"});
     if(response.statusCode == 200)

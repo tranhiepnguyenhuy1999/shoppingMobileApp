@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shop_app/models/Category.dart';
 
 import '../../../constants.dart';
-
 // We need satefull widget for our categories
 
 class Categories extends StatefulWidget {
@@ -10,9 +14,49 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  List<String> categories = ["Deal sốc","Thời trang nam", "Thời trnag nữ ", "Phụ kiện&Trang sức", "Giày Dép"];
+  List<ProductCategory> categories = List();
   // By default our first item will be selected
   int selectedIndex = 0;
+    void fetchData () async {
+    print("yeah");
+
+    // await Future.delayed( Duration(milliseconds: 1000));
+    var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/category'));
+    print(response.body);
+    print("yeah");
+
+    if(response.statusCode == 200)
+    { 
+      var data = json.decode(response.body);
+      print(data);
+      setState(() {
+        categories= CategoryJSON.fromJson(data).data.categories;
+      });
+
+      // for (var item in data)
+      // {
+
+      // }
+    }
+    else {
+      print("nono");
+
+      return;
+    }
+    print(response.body);
+    setState(() {
+      loading: false;
+    });
+  }
+
+  @override 
+  initState() {
+    super.initState();
+    // Add listeners to this class  
+    fetchData();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,7 +92,7 @@ class _CategoriesState extends State<Categories> {
                 borderRadius: BorderRadius.circular(10)
               ),
               child: Text(
-                categories[index],
+                categories[index].name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: selectedIndex == index ? kTextColor : kTextLightColor

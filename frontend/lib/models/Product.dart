@@ -61,7 +61,7 @@ class Product {
 //       title: "Quần áo thể thao nam",
 //       price: 156000,
 //       size: 12,
-//       description: dummyText,
+//       description: "Sản phẩm có chất liệu mềm mại co giãn tốt , thoáng mát... đường may tinh tế sắc sảo, chuẩn form. Có nguồn góc xuất xứ rõ ràng đảm bảo chất lượng",
 //       image: "https://filebroker-s.slatic.net/S2416ac32985f469e83275ac92cfe36e24.jpg_200x200q90.jpg_.webp",
 //       color: Color(0xFF3D82AE),
 //       address: "Hồ Chí Minh"

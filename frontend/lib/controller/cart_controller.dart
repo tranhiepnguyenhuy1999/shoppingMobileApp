@@ -9,20 +9,26 @@ class CartController extends GetxController{
     {
       int index = product.value.indexWhere((ele)=> ele.id==item.id);
       product.value[index].amount++;
+      count.value++;
     }
     else
     {
       product.value.add(item);
+      count.value++;
+
     }
     product.refresh();
   }
   void changeAmountById(id, amount) {
     int index = product.value.indexWhere((ele)=> ele.id==id);
     product.value[index].amount= amount;
+    count.value+=amount;
+
     product.refresh();
   }
   Function clearAll() {
     product.value.clear();
+    count.value=0;
     product.refresh();
   }
 }

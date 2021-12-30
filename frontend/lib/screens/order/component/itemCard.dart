@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Product%20copy.dart';
-import 'package:shop_app/screens/details/components/cart_counter.dart';
-import 'package:shop_app/screens/shopingCart/component/cartCounter.dart';
-
+import 'package:intl/intl.dart';
+import 'package:shop_app/models/ReportBill.dart';
+var f = NumberFormat('###,###,000');
 class ItemCard extends StatelessWidget {
-  final CartItemM item;
+  final Detail item;
   final Function press;
   const ItemCard({
     Key key,
@@ -19,7 +18,7 @@ class ItemCard extends StatelessWidget {
     child: Container(
       padding: EdgeInsets.all(10),
       width: double.maxFinite,
-      height: 140,
+      height: 100,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius:  BorderRadius.circular(5)
@@ -29,11 +28,11 @@ class ItemCard extends StatelessWidget {
           GestureDetector(
             onTap: press,
             child: Container(
-              width: 120,
-              height: 120,
+              width: 80,
+              height: 80,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image:  NetworkImage(item.image),
+                  image:  NetworkImage(item.product.image),
                   fit: BoxFit.fill
                 )
               ),
@@ -45,17 +44,21 @@ class ItemCard extends StatelessWidget {
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Text("${item.title}", style: TextStyle(fontSize: 13)),
+                 Text("${item.product.title}", style: TextStyle(fontSize: 15)),
+                 SizedBox(height:5),
+                 Text("Kích thước ${item.product.size}", style: TextStyle(fontSize: 13, color: Colors.black54)),
                  Expanded(child: Container(),),         
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
-                    Text("${item.price} VNĐ",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.red)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("Thành tiền: ${item.price*item.amount}", style: TextStyle(fontWeight: FontWeight.bold)),
-                      CartShoppingCounter(amount: item.amount, id: item.id)]),
-                   ]
+                      children: [Text("₫ ${f.format(item.unitPrice)}", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Số lượng ${item.quantity}")
+                      ]
+                    )
+                    ]
+
                  )
                ]
              ),

@@ -33,7 +33,7 @@ class ItemCard extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image:  AssetImage(item.image),
+                  image:  NetworkImage(item.image),
                   fit: BoxFit.fill
                 )
               ),

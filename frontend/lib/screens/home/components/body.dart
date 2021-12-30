@@ -21,7 +21,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
 
-  List<Product> productList= [];
+  List<Product> productList= List();
 
   ScrollController _controller= new ScrollController();
 
@@ -33,12 +33,13 @@ class _BodyState extends State<Body> {
       loading: true;
     });
     // await Future.delayed( Duration(milliseconds: 1000));
-    var response = await http.get(Uri.parse('http://192.168.2.8:4007/v1/app/product'));
+    var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/product'));
     if(response.statusCode == 200)
     { 
       var data = json.decode(response.body);
-        print("Data here ${ProductJSON.fromJson(data).data.products}");
-
+      setState(() {
+        productList=ProductJSON.fromJson(data).data.products;
+      });
       // for (var item in data)
       // {
 
@@ -90,13 +91,12 @@ class _BodyState extends State<Body> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Colors.amber[50],
                   image: DecorationImage(
                     image: AssetImage("assets/images/banner${i}.png"),
                     fit: BoxFit.cover
                   )
                 ),
-                child: Text('text $i', style: TextStyle(fontSize: 16.0),)
               );
             },
           );
