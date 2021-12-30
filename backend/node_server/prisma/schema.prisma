@@ -33,10 +33,10 @@ model Product {
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  created_at  DateTime @default(now())
-  products Product[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime  @default(now())
+  products   Product[]
 }
 
 model Order {
@@ -45,6 +45,7 @@ model Order {
   total_price    Int
   coupon_code_id Int?
   pay_price      Int
+  address        String
   details        OrderDetail[]
   status         OrderStatus   @default(PENDING)
   hash           String?

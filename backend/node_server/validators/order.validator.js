@@ -22,5 +22,8 @@ exports.createValidator = () => {
       .withMessage('Số tiền không được bỏ trống')
       .isInt({ min: 0 })
       .withMessage('Số tiền phải là số tự nhiên'),
+    body('address')
+      .notEmpty()
+      .withMessage('Địa chỉ giao hàng không được bỏ trống'),
   ]
 }
