@@ -31,31 +31,6 @@ app.use("/v1", async function (req, res, next) {
 })
 app.use('/v1', appRoute)
 
-const getCoinbase = (callBack) => {
-    web3.eth.getCoinbase((err, _coinbase) => {
-        coinbase = _coinbase;
-        if (callBack) {
-            callBack()
-        }
-    })
-}
-
-const connectWeb3 = (callBack) => {
-    web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-    web3.eth.net.isListening()
-        .then(() => {
-            console.log('Web3 connected');
-            callBack();
-        })
-        .catch((e) => {
-            console.log('Wow. Something went wrong: ' + e);
-            process.exit();
-        });
-}
-
 app.listen(port, async () => {
-    connectWeb3(() => {
-        getCoinbase();
-        console.log(`App running on port ${port}`);
-    });
+    console.log(`App running on port ${port}`);
 })

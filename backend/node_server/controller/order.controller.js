@@ -126,8 +126,36 @@ const create = async (req, res, next) => {
             details: true
         }
     });
-    order.hash = "string"
-    return res.json({ code: 0, message: "Thành công", data: { order } })
+    let { contract, coinbase } = ContractService.getContract();
+
+    contract.methods.addOrder(
+        order.id,
+        order.user_id,
+        order.total_price,
+        order.address,
+        JSON.stringify(order.details),
+        order.name,
+        order.phone,
+        new Date().getTime()
+    ).send({
+        from: coinbase,
+    })
+        .on('receipt', async function (receipt) {
+            console.log(receipt)
+            await prisma.order.update({
+                where: {
+                    id: order.id
+                },
+                data: {
+                    hash: receipt.transactionHash
+                }
+            })
+            return res.json({ code: 0, message: "Thành công", data: { order } })
+        })
+        .on('error', function (error, receipt) { 
+
+            return res.json({ code: 90, message: "Có lỗi với hợp đồng thông minh", data: { order } })
+        });
 }
 
 module.exports = { list, create, detail }

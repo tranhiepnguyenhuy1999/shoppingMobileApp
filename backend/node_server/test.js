@@ -1,12 +1,47 @@
-var Web3 = require('web3');
+const ContractService = require('./service/ContractService');
+const fs = require('fs');
 
+let {contract, coinbase } = ContractService.getContract();
 
-var web3 = new Web3(new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545'));
-web3.eth.net.isListening()
-        .then(() => {
-            console.log('Web3 connected');
-        })
-        .catch((e) => {
-            console.log('Wow. Something went wrong: ' + e);
-            process.exit();
-        });
+// contract.methods.addOrder(
+//     1,
+//     1,
+//     1,
+//     "address",
+//     "details",
+//     "name",
+//     "phone",
+//     1
+// ).send({
+//     from: coinbase,
+// })
+//     .on('receipt', function (receipt) {
+//     console.log(receipt)        
+//     })
+//     .on('error', function (error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+//        console.log(error)
+//     });
+
+// contract.methods.getOrder(
+//     1
+// ).call({
+//     from: coinbase,
+// }, function (error, result) {
+//     console.log(result)
+// });
+
+// contract.methods.createUser(
+//     1,
+//     "name",
+//     "phone",
+//     "email",
+//     1
+// ).send({
+//     from: coinbase,
+// })
+//     .on('receipt', function (receipt) {
+//     console.log(receipt)        
+//     })
+//     .on('error', function (error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+//         console.log(error)
+//     });
