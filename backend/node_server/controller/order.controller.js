@@ -42,7 +42,13 @@ const detail = async (req, res, next) => {
         where: {
             id: parseInt(req.params.id)
         },
-        include: { details: true }
+        include: {
+            details: {
+                include: {
+                    product: true
+                }
+            }
+        }
     });
 
     if (!order) {
