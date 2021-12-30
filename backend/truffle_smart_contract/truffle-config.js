@@ -44,10 +44,10 @@ module.exports = {
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "151098",       // Any network (default: none)
+     network_id: "1510",       // Any network (default: none)
     },
     testnet: {
-      provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-2-s2.binance.org:8545`),
       network_id: 97,
       confirmations: 10,
       timeoutBlocks: 200,
@@ -60,6 +60,11 @@ module.exports = {
       timeoutBlocks: 200,
       skipDryRun: true
     },
+    ropsten: {
+      provider: () =>
+        new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"),
+      network_id: '3',
+    }
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
