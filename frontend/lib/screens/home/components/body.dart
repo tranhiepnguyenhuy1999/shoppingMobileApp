@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/ProductJSON.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
 import 'categorries.dart';
 import 'item_card.dart';
+
+import 'package:http/http.dart' as http;
 
 class Body extends StatefulWidget {
 
@@ -16,7 +21,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
 
-  final List<Product> productList= [];
+  List<Product> productList= [];
 
   ScrollController _controller= new ScrollController();
 
@@ -27,19 +32,25 @@ class _BodyState extends State<Body> {
     setState(() {
       loading: true;
     });
-    await Future.delayed( Duration(milliseconds: 1000));
-    if(productList.length >=60)
-    {
-      setState(() {
-        isLoadingDone: true;
-      });
+    // await Future.delayed( Duration(milliseconds: 1000));
+    var response = await http.get(Uri.parse('http://192.168.2.8:4007/v1/app/product'));
+    if(response.statusCode == 200)
+    { 
+      var data = json.decode(response.body);
+        print("Data here ${ProductJSON.fromJson(data).data.products}");
+
+      // for (var item in data)
+      // {
+
+      // }
     }
-    else
-    {
+    else {
       setState(() {
-        productList: productList.addAll(products);
+        productList=[];
       });
+      return;
     }
+    print(response.body);
     setState(() {
       loading: false;
     });

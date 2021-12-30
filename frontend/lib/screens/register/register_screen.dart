@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:shop_app/screens/add_product/add_product.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shop_app/screens/author/signIn_screen.dart';
 import 'package:shop_app/screens/main/main_page.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key, this.title}) : super(key: key);
@@ -20,28 +25,43 @@ closeKeyboard(BuildContext context) {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  DateTime _selectedDate = DateTime.now();
 
   final _nameTextController = TextEditingController();
   bool _nameValidate = false;
 
   final _emailTextController = TextEditingController();
   bool _emailValidate = false;
+
   bool _isObscure0 = true;
   bool _isObscure1 = true;
+
   final _phoneTextController = TextEditingController();
   // var maskFormatter = new MaskTextInputFormatter(
   //     mask: '####-###-###', filter: {"#": RegExp(r'[0-9]')});
   bool _phoneValidate = false;
 
-  final _userNameTextController = TextEditingController();
-  bool _userNameValidate = false;
+  // final _userNameTextController = TextEditingController();
+  // bool _userNameValidate = false;
 
   final _passwordTextController = TextEditingController();
   bool _passwordValidate = false;
 
   final _prePasswordTextController = TextEditingController();
   bool _prePasswordValidate = false;
+void _doSignUp (String email, String password, String name, String phone) async {
+    // await Future.delayed( Duration(milliseconds: 1000));
+    var body = { "email" : email, "password" : password, "name" : name, "phone" : phone};
+    var url = Uri.parse('http://192.168.2.8:4007/v1/register');
+    var response = await http.post(url,
+    body: json.encode(body), headers: {"Content-Type": "application/json"});
+    if(response.statusCode == 200)
+    { 
+      Get.to(SignInScreen());
+    }
+    else {
+      throw Exception("There is something wrong");
+    }
+  }
   @override
   void dispose() {
     _nameTextController.dispose();
@@ -51,8 +71,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    var outputFormat = DateFormat('yyyy-MM-dd');
-    var outputDate = outputFormat.format(_selectedDate);
+    // var outputFormat = DateFormat('yyyy-MM-dd');
+    // var outputDate = outputFormat.format(_selectedDate);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -119,42 +140,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             closeKeyboard(context);
                           }
                         },
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Ngày sinh: ',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5)),
-                              ),
-                              Text(
-                                outputDate,
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(1)),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showDatePicker(
-                                    initialDate:
-                                        _selectedDate ?? DateTime.now(),
-                                    context: context,
-                                    firstDate: DateTime(1920, 1, 1),
-                                    lastDate: DateTime.now(),
-                                  ).then((date) {
-                                    if (date != null) {
-                                      setState(() {
-                                        _selectedDate = date;
-                                      });
-                                    }
-                                  });
-                                },
-                                icon: Icon(Icons.date_range),
-                              )
-                            ],
-                          ),
-                        ],
                       ),
                       TextField(
                         textInputAction: TextInputAction.next,
@@ -245,33 +230,34 @@ class _RegisterPageState extends State<RegisterPage> {
                       //   },
                       // ),
 
-                      TextField(
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (v) {
-                          FocusScope.of(context).nextFocus();
-                        },
-                        controller: _userNameTextController,
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.black),
-                        decoration: InputDecoration(
-                          labelText: "Tên tài khoản",
-                          errorText: _userNameValidate
-                              ? 'Vui lòng nhập tên tài khoản '
-                              : null,
-                          labelStyle: const TextStyle(
-                              color: Color(0xff888888), fontSize: 14),
-                        ),
-                        onEditingComplete: () {
-                          setState(() {
-                            _userNameTextController.text.isEmpty
-                                ? _userNameValidate = true
-                                : _userNameValidate = false;
-                          });
-                          if (_userNameValidate != true) {
-                            closeKeyboard(context);
-                          }
-                        },
-                      ),
+                      // TextField(
+                      //   textInputAction: TextInputAction.next,
+                      //   onSubmitted: (v) {
+                      //     FocusScope.of(context).nextFocus();
+                      //   },
+                      //   controller: _userNameTextController,
+                      //   style:
+                      //       const TextStyle(fontSize: 18, color: Colors.black),
+                      //   decoration: InputDecoration(
+                      //     labelText: "Tên tài khoản",
+                      //     errorText: _userNameValidate
+                      //         ? 'Vui lòng nhập tên tài khoản '
+                      //         : null,
+                      //     labelStyle: const TextStyle(
+                      //         color: Color(0xff888888), fontSize: 14),
+                      //   ),
+                      //   onEditingComplete: () {
+                      //     setState(() {
+                      //       _userNameTextController.text.isEmpty
+                      //           ? _userNameValidate = true
+                      //           : _userNameValidate = false;
+                      //     });
+                      //     if (_userNameValidate != true) {
+                      //       closeKeyboard(context);
+                      //     }
+                      //   },
+                      // ),
+
                       TextField(
                         textInputAction: TextInputAction.next,
                         onSubmitted: (v) {
@@ -358,7 +344,17 @@ class _RegisterPageState extends State<RegisterPage> {
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(180, 50), primary: Colors.blue),
-                  onPressed: () {},
+                  onPressed: () {
+                    if(!_nameValidate&&!_phoneValidate&&!_emailValidate&&!_passwordValidate)
+                    {
+                      print({ "email" :_emailTextController.text ,
+    "password" : _passwordTextController.text,
+    "name" : _nameTextController.text,
+    "phone" : _phoneTextController.text});
+                      print("SignUp");
+                      _doSignUp(_emailTextController.text, _passwordTextController.text, _nameTextController.text, _phoneTextController.text);
+                    }
+                  },
                   child: Text("Đăng ký")),
               const SizedBox(
                 height: 15,

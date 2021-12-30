@@ -20,5 +20,4 @@ class CartItemM {
       price =product.price,
       size =product.size,
       amount =amount;
-
 }
