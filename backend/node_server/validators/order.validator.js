@@ -25,5 +25,13 @@ exports.createValidator = () => {
     body('address')
       .notEmpty()
       .withMessage('Địa chỉ giao hàng không được bỏ trống'),
+    body('name')
+      .notEmpty()
+      .withMessage('Tên không được để trống'),
+    body('phone')
+      .trim()
+      .matches(/((0|\+84)+([0-9]{9}))$/, 'g')
+      .withMessage('Số điện thoại không hợp lệ')
+      .escape(),
   ]
 }

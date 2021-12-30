@@ -110,6 +110,8 @@ const create = async (req, res, next) => {
             pay_price: totalPrice,
             coupon_code_id: coupon ? coupon.id : null,
             address: body.address,
+            name: body.name,
+            phone: body.phone,
             details: {
                 createMany: {
                     data: details
