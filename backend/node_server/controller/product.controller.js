@@ -19,6 +19,7 @@ const list = async (req, res, next) => {
                 },
                 {
                     size: args.size,
+                    category_id: args.category_id,
                 },
             ]
         },
