@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  http: ^0.13.4
   carousel_slider: ^4.0.0
   fluttertoast: ^8.0.8
   get: any

@@ -1,11 +1,11 @@
-class AccountToken {
+class TokenJSON {
   int code;
   String message;
   Data data;
 
-  AccountToken({this.code, this.message, this.data});
+  TokenJSON({this.code, this.message, this.data});
 
-  AccountToken.fromJson(Map<String, dynamic> json) {
+  TokenJSON.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
