@@ -135,7 +135,7 @@ const create = async (req, res, next) => {
         new Date().getTime()
     ).send({
         from: coinbase,
-        gas: 235680
+        gas: 8356800
     })
         .on('receipt', async function (receipt) {
             console.log(receipt)
