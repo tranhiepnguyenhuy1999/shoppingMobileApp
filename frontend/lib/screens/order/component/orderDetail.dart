@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:shop_app/models/ReportBill.dart';
 import 'package:shop_app/screens/order/component/itemCard.dart';
 import 'package:intl/date_symbol_data_local.dart';
-final DateFormat formatter = DateFormat('yyyy-MM-dd vào lúc hh:mm');
+final DateFormat formatter = DateFormat('yyyy-MM-dd');
 var f = NumberFormat('###,###,000');
 class OrderDetail extends StatelessWidget {
   final Order order;
@@ -35,7 +35,7 @@ class OrderDetail extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-          child: Text("Ngày đặt hàng: ${formatter.format(DateTime.parse(order.createdAt))}"),
+          child: Text("Ngày đặt hàng: ${DateFormat.yMd().add_jm().format(DateTime.parse(order.createdAt))}"),
         ),
         order.details.length !=0
         ?

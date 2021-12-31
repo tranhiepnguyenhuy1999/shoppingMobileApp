@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/screens/author/signIn_screen.dart';
-import 'package:shop_app/screens/main/main_page.dart';
+import 'package:shop_app/screens/author/login_screen.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key, this.title}) : super(key: key);
@@ -50,14 +53,31 @@ void _doSignUp (String email, String password, String name, String phone) async 
     // await Future.delayed( Duration(milliseconds: 1000));
     var body = { "email" : email, "password" : password, "name" : name, "phone" : phone};
     var url = Uri.parse('http://192.168.0.104:4007/v1/register');
+    try{
     var response = await http.post(url,
-    body: json.encode(body), headers: {"Content-Type": "application/json"});
+    body: json.encode(body), headers: {"Content-Type": "application/json"}).timeout(const Duration(seconds: 30));
     if(response.statusCode == 200)
     { 
-      Get.to(SignInScreen());
+      var data = json.decode(response.body);
+      print(data);
+      Fluttertoast.showToast(
+        msg: "Đăng kí thành công, quay trở lại trang Đăng nhập",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0
+       );
+      Get.to(LoginScreen());
     }
     else {
       throw Exception("There is something wrong");
+    }
+    }on TimeoutException catch (_) {
+      print(_);
+    } on SocketException catch (_) {
+      // Other exception
     }
   }
   @override
@@ -73,15 +93,6 @@ void _doSignUp (String email, String password, String name, String phone) async 
     // var outputDate = outputFormat.format(_selectedDate);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-          );
-        },
-        child: Icon(Icons.home),
-      ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: SingleChildScrollView(
@@ -90,19 +101,15 @@ void _doSignUp (String email, String password, String name, String phone) async 
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Text(
-                  "Đăng ký",
+                  'SIGN IN',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontSize: 18),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 60.0,
+                      color: Colors.blue),
                 ),
               ),
               SizedBox(
                 height: 45,
-              ),
-              Image.asset(
-                "assets/icons/account.png",
-                height: 150,
               ),
               Container(
                 color: Colors.white,
@@ -339,24 +346,57 @@ void _doSignUp (String email, String password, String name, String phone) async 
                   ),
                 ),
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(180, 50), primary: Colors.blue),
-                  onPressed: () {
-                    if(!_nameValidate&&!_phoneValidate&&!_emailValidate&&!_passwordValidate)
-                    {
-                      print({ "email" :_emailTextController.text ,
-    "password" : _passwordTextController.text,
-    "name" : _nameTextController.text,
-    "phone" : _phoneTextController.text});
-                      print("SignUp");
-                      _doSignUp(_emailTextController.text, _passwordTextController.text, _nameTextController.text, _phoneTextController.text);
-                    }
-                  },
-                  child: Text("Đăng ký")),
+                           SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        child: Container(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          width: double.infinity,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: MaterialButton(
+                        onPressed: (){
+                        if(!_nameValidate&&!_phoneValidate&&!_emailValidate&&!_passwordValidate)
+                              {
+                                _doSignUp(_emailTextController.text, _passwordTextController.text, _nameTextController.text, _phoneTextController.text);
+                              }
+                        },
+                        color: Colors.blue,
+                        child: Text(
+                          'Đăng ký',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                    ),
+                  ),
+                      ),
               const SizedBox(
                 height: 15,
               ),
+              Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '''Quay trở lại trang''',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                         Get.to(LoginScreen());
+                        },
+                        child: Text('Đăng nhập'),
+                      )
+                    ],
+                  ),
             ],
           ),
         ),

@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,6 +33,7 @@ class _BodyState extends State<Body> {
   String address='';
 
   void _doOrder() async {
+    showAlertDialog(context);
     try{
     List<BillProduct> products= List();
     for (var item in _controller.product){
@@ -41,7 +44,7 @@ class _BodyState extends State<Body> {
     var url = Uri.parse('http://192.168.0.104:4007/v1/app/order');
     print(json.encode(body));
     var response = await http.post(url,
-    body: json.encode(body), headers: {"Content-Type": "application/json", "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjQwODM3NDA0LCJleHAiOjE2NDM0Mjk0MDR9.9906SlatJc3Q7HYLQHLbBzmGppSrm7Z_K3rpit13xDw"});
+    body: json.encode(body), headers: {"Content-Type": "application/json", "Authorization": _userTokenControllercontroller.userToken.value }).timeout(const Duration(seconds: 30));
     if(response.statusCode == 200)
     {  
       _controller.clearAll();
@@ -58,10 +61,15 @@ class _BodyState extends State<Body> {
     else {
       throw Exception("There is something wrong");
     }
+    }on TimeoutException catch (_) {
+      print(_);
+    } on SocketException catch (_) {
+      // Other exception
     }
     catch (err) {
       throw Exception(err);
     }
+    Navigator.pop(context);
   }
   
   @override
@@ -248,5 +256,19 @@ class _BodyState extends State<Body> {
       address: value;
     });},
   );
-
+showAlertDialog(BuildContext context){
+      AlertDialog alert=AlertDialog(
+        content: new Row(
+            children: [
+               CircularProgressIndicator(),
+               Container(margin: EdgeInsets.only(left: 5),child:Text("Vui lòng chờ trong giây lát..." )),
+            ],),
+      );
+      showDialog(barrierDismissible: false,
+        context:context,
+        builder:(BuildContext context){
+          return alert;
+        },
+      );
+    }
 }

@@ -50,7 +50,7 @@ class _BodyState extends State<Body> {
             width: double.maxFinite,
             height: 250,
             decoration: BoxDecoration(
-              color: Colors.black12,
+              color: Colors.black12 ,
               image: DecorationImage(
                   image:  NetworkImage(widget.product.image),
                   fit: BoxFit.contain

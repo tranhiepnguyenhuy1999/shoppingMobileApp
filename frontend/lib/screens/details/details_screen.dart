@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/controller/userToken_controller.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/author/login_screen.dart';
 import 'package:shop_app/screens/details/components/body.dart';
 import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+UserTokenController _tokenController = Get.put(UserTokenController());
 class DetailsScreen extends StatelessWidget {
   final Product product;
 
@@ -39,7 +41,16 @@ class DetailsScreen extends StatelessWidget {
         ),
         IconButton(
           icon: SvgPicture.asset("assets/icons/cart.svg"),
-          onPressed: () {Get.to(ShoppingCartScreen());},
+          onPressed: () {
+              if(_tokenController.isLogin.value)
+              {
+                Get.to(ShoppingCartScreen());
+              }
+              else 
+              {
+                Get.to(LoginScreen());
+              }
+          },
         ),
         SizedBox(width: kDefaultPaddin / 2)
       ],

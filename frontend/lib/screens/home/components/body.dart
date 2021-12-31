@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -27,36 +29,51 @@ class _BodyState extends State<Body> {
 
   bool loading = false;
   bool isLoadingDone = false;
+  int selectedCategoryId=null;
+
   void fetchData () async {
     if(isLoadingDone) return;
     setState(() {
       loading: true;
     });
     // await Future.delayed( Duration(milliseconds: 1000));
-    var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/product'));
-    if(response.statusCode == 200)
-    { 
-      var data = json.decode(response.body);
-      setState(() {
-        productList=ProductJSON.fromJson(data).data.products;
-      });
-      // for (var item in data)
-      // {
+    try
+    {
+      var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/product?category=${selectedCategoryId}')).timeout(const Duration(seconds: 10));
+      // var response = await http.get(Uri.parse('http://gondar.gotdns.ch/v1/app/product'));
+      if(response.statusCode == 200)
+      { 
+        var data = json.decode(response.body);
+        print(data);
+        setState(() {
+          productList=ProductJSON.fromJson(data).data.products;
+        });
+      }
+      else {
+        setState(() {
+          productList=[];
+        });
+        return;
+      }
+    }on TimeoutException catch (_) {
+      print(_);
+    } on SocketException catch (_) {
+      // Other exception
+    }
+    catch(err) {
+      print("erro ${err}");
+    }
 
-      // }
-    }
-    else {
-      setState(() {
-        productList=[];
-      });
-      return;
-    }
-    print(response.body);
     setState(() {
       loading: false;
     });
   }
-
+  void changeSelectedCategoryId (id) {
+    setState(() {
+      selectedCategoryId=id;
+    });
+    fetchData();
+  }
   @override 
   initState() {
     super.initState();
@@ -102,7 +119,7 @@ class _BodyState extends State<Body> {
           );
         }).toList(),
       ),
-        Categories(),
+        Categories(press: changeSelectedCategoryId),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: kDefaultPaddin/4),

@@ -24,15 +24,28 @@ class _BodyState extends State<Body> {
 
   List<Order> orders= List();
   void fetchData () async {
-    setState(() {
-      loading: true;
-    });
-    var headers= {"Content-Type": "application/json", "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjQwODM3NDA0LCJleHAiOjE2NDM0Mjk0MDR9.9906SlatJc3Q7HYLQHLbBzmGppSrm7Z_K3rpit13xDw"};
+    var headers= {"Content-Type": "application/json", "Authorization": _userTokenControllercontroller.userToken.value};
     // await Future.delayed( Duration(milliseconds: 1000));
     var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/order'), headers: headers);
     if(response.statusCode == 200)
     { 
+
       var data = json.decode(response.body);
+
+      if(ReportBillJSON.fromJson(data).code !=0){
+        Fluttertoast.showToast(
+        msg: ReportBillJSON.fromJson(data).message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0
+       );
+       
+       return;
+
+      }
       setState(() {
         orders=ReportBillJSON.fromJson(data).data.orders;
       });

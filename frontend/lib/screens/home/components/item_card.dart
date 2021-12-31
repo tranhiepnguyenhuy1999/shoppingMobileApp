@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
-
+var f = NumberFormat('###,###,000');
 class ItemCard extends StatelessWidget {
   final Product product;
   final Function press;
@@ -48,10 +49,11 @@ class ItemCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Text(
-                "\$${product.price}",
+                "${f.format(product.price)} ₫",
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink[300]),
               ),
             ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Text(

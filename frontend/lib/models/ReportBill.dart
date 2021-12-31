@@ -166,7 +166,7 @@ class Product {
   String image;
   String color;
   String address;
-  Null hash;
+  String hash;
   String createdAt;
   int categoryId;
 

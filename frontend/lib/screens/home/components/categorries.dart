@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,8 @@ import '../../../constants.dart';
 // We need satefull widget for our categories
 
 class Categories extends StatefulWidget {
+  final Function press;
+  const Categories({Key key, this.press}) : super(key: key);
   @override
   _CategoriesState createState() => _CategoriesState();
 }
@@ -18,35 +22,21 @@ class _CategoriesState extends State<Categories> {
   // By default our first item will be selected
   int selectedIndex = 0;
     void fetchData () async {
-    print("yeah");
-
-    // await Future.delayed( Duration(milliseconds: 1000));
+    try{  
     var response = await http.get(Uri.parse('http://192.168.0.104:4007/v1/app/category'));
-    print(response.body);
-    print("yeah");
-
     if(response.statusCode == 200)
     { 
       var data = json.decode(response.body);
-      print(data);
       setState(() {
         categories= CategoryJSON.fromJson(data).data.categories;
       });
-
-      // for (var item in data)
-      // {
-
-      // }
     }
-    else {
-      print("nono");
-
-      return;
+    }on TimeoutException catch (_) {
+      print(_);
+    } on SocketException catch (_) {
+      // Other exception
     }
-    print(response.body);
-    setState(() {
-      loading: false;
-    });
+
   }
 
   @override 
@@ -76,9 +66,7 @@ class _CategoriesState extends State<Categories> {
   Widget buildCategory(int index) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
+        widget.press(categories[index].id);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin/4),

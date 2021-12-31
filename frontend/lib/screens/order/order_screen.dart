@@ -12,7 +12,7 @@ class OrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thông tin hóa đơn", style: TextStyle(color: Colors.black54),),
+        title: Text("Chi tiết hóa đơn", style: TextStyle(color: Colors.black54),),
         backgroundColor: Colors.white,
               leading: IconButton(
         icon: SvgPicture.asset(
