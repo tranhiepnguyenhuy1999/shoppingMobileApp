@@ -51,9 +51,11 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _prePasswordValidate = false;
 void _doSignUp (String email, String password, String name, String phone) async {
     // await Future.delayed( Duration(milliseconds: 1000));
+    showAlertDialog(context);
     var body = { "email" : email, "password" : password, "name" : name, "phone" : phone};
     var url = Uri.parse('http://192.168.0.104:4007/v1/register');
     try{
+      await Future.delayed( Duration(milliseconds: 1000));
     var response = await http.post(url,
     body: json.encode(body), headers: {"Content-Type": "application/json"}).timeout(const Duration(seconds: 30));
     if(response.statusCode == 200)
@@ -69,7 +71,6 @@ void _doSignUp (String email, String password, String name, String phone) async 
         textColor: Colors.white,
         fontSize: 16.0
        );
-      Get.to(LoginScreen());
     }
     else {
       throw Exception("There is something wrong");
@@ -79,6 +80,7 @@ void _doSignUp (String email, String password, String name, String phone) async 
     } on SocketException catch (_) {
       // Other exception
     }
+     Navigator.pop(context);
   }
   @override
   void dispose() {
@@ -209,60 +211,6 @@ void _doSignUp (String email, String password, String name, String phone) async 
                           ),
                         ],
                       )),
-                      // TextField(
-                      //   textInputAction: TextInputAction.next,
-                      //   onSubmitted: (v) {
-                      //     FocusScope.of(context).nextFocus();
-                      //   },
-                      //   controller: _phoneTextController,
-                      //   style: const TextStyle(fontSize: 18, color: Colors.black),
-                      //   decoration: InputDecoration(
-                      //     labelText: "Số điện thoại",
-                      //     errorText:
-                      //         _phoneValidate ? 'Vui lòng nhập số điện thoại ' : null,
-                      //     labelStyle:
-                      //         const TextStyle(color: Color(0xff888888), fontSize: 14),
-                      //   ),
-                      //   onEditingComplete: () {
-                      //     setState(() {
-                      //       _phoneTextController.text.isEmpty
-                      //           ? _phoneValidate = true
-                      //           : _phoneValidate = false;
-                      //     });
-                      //     if (_phoneValidate != true) {
-                      //       closeKeyboard(context);
-                      //     }
-                      //   },
-                      // ),
-
-                      // TextField(
-                      //   textInputAction: TextInputAction.next,
-                      //   onSubmitted: (v) {
-                      //     FocusScope.of(context).nextFocus();
-                      //   },
-                      //   controller: _userNameTextController,
-                      //   style:
-                      //       const TextStyle(fontSize: 18, color: Colors.black),
-                      //   decoration: InputDecoration(
-                      //     labelText: "Tên tài khoản",
-                      //     errorText: _userNameValidate
-                      //         ? 'Vui lòng nhập tên tài khoản '
-                      //         : null,
-                      //     labelStyle: const TextStyle(
-                      //         color: Color(0xff888888), fontSize: 14),
-                      //   ),
-                      //   onEditingComplete: () {
-                      //     setState(() {
-                      //       _userNameTextController.text.isEmpty
-                      //           ? _userNameValidate = true
-                      //           : _userNameValidate = false;
-                      //     });
-                      //     if (_userNameValidate != true) {
-                      //       closeKeyboard(context);
-                      //     }
-                      //   },
-                      // ),
-
                       TextField(
                         textInputAction: TextInputAction.next,
                         onSubmitted: (v) {
@@ -403,4 +351,19 @@ void _doSignUp (String email, String password, String name, String phone) async 
       ),
     );
   }
+  showAlertDialog(BuildContext context){
+      AlertDialog alert=AlertDialog(
+        content: new Row(
+            children: [
+               CircularProgressIndicator(),
+               Container(margin: EdgeInsets.only(left: 5),child:Text("Vui lòng chờ trong giây lát..." )),
+            ],),
+      );
+      showDialog(barrierDismissible: false,
+        context:context,
+        builder:(BuildContext context){
+          return alert;
+        },
+      );
+    }
 }
