@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
-import 'package:shop_app/screens/add_product/add_product.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:shop_app/screens/author/signIn_screen.dart';
 import 'package:shop_app/screens/main/main_page.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key, this.title}) : super(key: key);
@@ -51,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
 void _doSignUp (String email, String password, String name, String phone) async {
     // await Future.delayed( Duration(milliseconds: 1000));
     var body = { "email" : email, "password" : password, "name" : name, "phone" : phone};
-    var url = Uri.parse('http://192.168.2.8:4007/v1/register');
+    var url = Uri.parse('http://192.168.0.104:4007/v1/register');
     var response = await http.post(url,
     body: json.encode(body), headers: {"Content-Type": "application/json"});
     if(response.statusCode == 200)

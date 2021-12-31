@@ -33,7 +33,7 @@ class ItemCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: "${product.id}",
-                  child: Image.network(product.image, fit: BoxFit.fill),
+                  child: FadeInImage.assetNetwork(placeholder: "assets/images/loading.gif", image: product.image, fit: BoxFit.fill),
                 ),
               ),
             ),

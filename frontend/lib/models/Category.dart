@@ -23,15 +23,15 @@ class CategoryJSON {
 }
 
 class Data {
-  List<Categorie> categories;
+  List<ProductCategory> categories;
 
   Data({this.categories});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['categories'] != null) {
-      categories = new List<Categorie>();
+      categories = new List<ProductCategory>();
       json['categories'].forEach((v) {
-        categories.add(new Categorie.fromJson(v));
+        categories.add(new ProductCategory.fromJson(v));
       });
     }
   }
@@ -45,14 +45,14 @@ class Data {
   }
 }
 
-class Categorie {
+class ProductCategory {
   int id;
   String name;
   String createdAt;
 
-  Categorie({this.id, this.name, this.createdAt});
+  ProductCategory({this.id, this.name, this.createdAt});
 
-  Categorie.fromJson(Map<String, dynamic> json) {
+  ProductCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     createdAt = json['created_at'];

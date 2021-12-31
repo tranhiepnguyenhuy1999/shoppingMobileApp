@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:shop_app/controller/cart_controller.dart';
 import 'package:shop_app/models/Product%20copy.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/shopingCart/shoppingCart_screen.dart';
 
 import '../../../constants.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+ 
 CartController _controller = Get.put(CartController());
 
 class AddToCart extends StatelessWidget {
@@ -41,7 +43,16 @@ class AddToCart extends StatelessWidget {
                 "assets/icons/add_to_cart.svg",
                 color: Colors.black,
               ),
-              onPressed: () {_controller.addCart(CartItemM.fromProduct(product, numOfItems));},
+              onPressed: () {_controller.addCart(CartItemM.fromProduct(product, numOfItems));
+              Fluttertoast.showToast(
+                msg: "Thêm sản phẩm vào giỏ hàng thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );},
             ),
           ),
           Expanded(
@@ -51,7 +62,7 @@ class AddToCart extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
                 color: Colors.black,
-                onPressed: () {_controller.addCart(CartItemM.fromProduct(product, 1));},
+                onPressed: () {_controller.addCart(CartItemM.fromProduct(product, 1)); Get.to(ShoppingCartScreen());},
                 child: Text(
                   "Mua ngay".toUpperCase(),
                   style: TextStyle(
