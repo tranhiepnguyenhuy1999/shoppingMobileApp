@@ -29,7 +29,6 @@ const create = async (req, res, next) => {
             name: body.name
         },
     });
-    category.hash = "string"
     return res.json({ code: 0, message: "Thành công", data: { category } })
 
 }

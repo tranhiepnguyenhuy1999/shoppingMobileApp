@@ -22,7 +22,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const fs = require('fs');
 const mnemonic = fs.readFileSync("./secret").toString().trim();
-
+const BSCSCANAPIKEY = "633WPGZEK72HKBU6H6QBRDYJ8U8Q2UUC1Y"
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -33,7 +33,12 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-
+   plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: BSCSCANAPIKEY
+  },
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -42,9 +47,9 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "1510",       // Any network (default: none)
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "1510",       // Any network (default: none)
     },
     testnet: {
       provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-2-s2.binance.org:8545`),
@@ -62,8 +67,10 @@ module.exports = {
     },
     ropsten: {
       provider: () =>
-        new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"),
+        new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/7d104db2cbfb413f93dd14f8f194c7b5"),
       network_id: '3',
+      gas: 8000000,
+      gasPrice: 21
     }
     // Another network with more advanced options...
     // advanced: {
@@ -94,7 +101,7 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
-    // timeout: 100000
+    timeout: 100000
   },
 
   // Configure your compilers
@@ -102,13 +109,13 @@ module.exports = {
     solc: {
       version: "0.8.10",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
-      //  evmVersion: "byzantium"
-      // }
+      settings: {        
+       optimizer: {
+         enabled: false,
+         runs: 200
+       },
+       evmVersion: "byzantium"
+      }
     }
   },
 
@@ -123,13 +130,13 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
+  // }
   // }
 };

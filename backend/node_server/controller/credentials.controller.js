@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client')
+const ContractService = require('../service/ContractService');
 const prisma = new PrismaClient()
 
 const login = async (req, res, next) => {
@@ -52,8 +53,34 @@ const register = async (req, res, next) => {
             password: bcrypt.hashSync(body.password, 10),
         },
     });
-    cmsUser.hash = "string"
-    return res.json({ code: 0, message: "Thành công", data: cmsUser })
+    let {contract, coinbase } = ContractService.getContract()
+    contract.methods.createUser(
+        cmsUser.id,
+        cmsUser.name,
+        cmsUser.phone,
+        cmsUser.email,
+        new Date().getTime()
+    ).send({
+        from: coinbase,
+        gas: 235680
+    })
+        .on('receipt', async function (receipt) {
+            console.log(receipt)
+            cmsUser = await prisma.user.update({
+                where: {
+                    id: cmsUser.id
+                },
+                data: {
+                    hash: receipt.transactionHash
+                }
+            })
+            return res.json({ code: 0, message: "Thành công", data: cmsUser })
+        })
+        .on('error', function (error, receipt) {
+            console.log(error)
+
+            return res.json({ code: 90, message: "Có lỗi với hợp đồng thông minh", data: null })
+        });
 }
 
 

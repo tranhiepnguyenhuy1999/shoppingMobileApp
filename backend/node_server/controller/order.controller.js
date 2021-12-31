@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const ContractService = require('../service/ContractService');
 
 const list = async (req, res, next) => {
     if (!req.user) {
@@ -29,10 +30,6 @@ const list = async (req, res, next) => {
             }
         }
     })
-
-    orders.forEach(element => {
-        element.hash = "string"
-    });
 
     return res.json({ code: 0, message: "Thành công", data: { orders } })
 
@@ -63,7 +60,6 @@ const detail = async (req, res, next) => {
         return res.json({ code: 301, message: "Đơn hàng không phải của bạn tồn tại", data: null })
     }
 
-    order.hash = "string"
     return res.json({ code: 0, message: "Thành công", data: { order } })
 }
 
@@ -139,10 +135,11 @@ const create = async (req, res, next) => {
         new Date().getTime()
     ).send({
         from: coinbase,
+        gas: 235680
     })
         .on('receipt', async function (receipt) {
             console.log(receipt)
-            await prisma.order.update({
+            order = await prisma.order.update({
                 where: {
                     id: order.id
                 },
@@ -152,9 +149,10 @@ const create = async (req, res, next) => {
             })
             return res.json({ code: 0, message: "Thành công", data: { order } })
         })
-        .on('error', function (error, receipt) { 
+        .on('error', function (error, receipt) {
+            console.log(error)
 
-            return res.json({ code: 90, message: "Có lỗi với hợp đồng thông minh", data: { order } })
+            return res.json({ code: 90, message: "Có lỗi với hợp đồng thông minh", data: null })
         });
 }
 
